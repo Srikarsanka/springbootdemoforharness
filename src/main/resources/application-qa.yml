@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://qa-mongodb.internal:27017/taskmanager_qa}
+
+logging:
+  level:
+    root: INFO
+    com.dnb.taskmanager: INFO
+    org.springframework.security: INFO
+
+app:
+  jwt:
+    expiration-ms: 43200000 # 12 hours
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://qa-taskmanager.dnb.example.com}
+

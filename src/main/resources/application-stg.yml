@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+
+logging:
+  level:
+    root: INFO
+    com.dnb.taskmanager: INFO
+    org.springframework.security: WARN
+
+app:
+  jwt:
+    expiration-ms: 28800000 # 8 hours
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:https://stg-taskmanager.dnb.example.com}
+

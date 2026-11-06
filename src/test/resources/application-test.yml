@@ -1,0 +1,16 @@
+spring:
+  data:
+    mongodb:
+      auto-index-creation: false
+
+app:
+  jwt:
+    secret: dnbTaskManagementSecureJwtSecretKeyMustBeAtLeast256BitsLongForHmacSha256SecurityRequirement
+    expiration-ms: 3600000
+  cors:
+    allowed-origins: "*"
+
+management:
+  endpoint:
+    health:
+      show-details: always

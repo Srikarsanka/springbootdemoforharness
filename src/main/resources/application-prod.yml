@@ -1,0 +1,34 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      auto-index-creation: false
+
+server:
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+
+logging:
+  level:
+    root: WARN
+    com.dnb.taskmanager: INFO
+    org.springframework.security: WARN
+
+app:
+  jwt:
+    expiration-ms: 14400000 # 4 hours
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+

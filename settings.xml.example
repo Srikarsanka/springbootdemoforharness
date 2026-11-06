@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Example Maven settings.xml template for internal / enterprise artifact repositories
+  (e.g., Nexus, Artifactory, or cloud package registries).
+  Copy this file to ~/.m2/settings.xml or reference it using `mvn -s settings.xml clean package`.
+-->
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+    <servers>
+        <!-- Internal Maven Releases Repository -->
+        <server>
+            <id>dnb-internal-releases</id>
+            <username>${env.MAVEN_REPO_USER}</username>
+            <password>${env.MAVEN_REPO_PASS}</password>
+        </server>
+
+        <!-- Internal Maven Snapshots Repository -->
+        <server>
+            <id>dnb-internal-snapshots</id>
+            <username>${env.MAVEN_REPO_USER}</username>
+            <password>${env.MAVEN_REPO_PASS}</password>
+        </server>
+    </servers>
+
+    <mirrors>
+        <mirror>
+            <id>internal-mirror</id>
+            <name>Internal Artifact Mirror</name>
+            <url>https://repo.internal.dnb.example.com/repository/maven-public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+
+    <profiles>
+        <profile>
+            <id>internal-repository-profile</id>
+            <repositories>
+                <repository>
+                    <id>dnb-internal-releases</id>
+                    <name>Internal Releases</name>
+                    <url>https://repo.internal.dnb.example.com/repository/maven-releases/</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+                <repository>
+                    <id>dnb-internal-snapshots</id>
+                    <name>Internal Snapshots</name>
+                    <url>https://repo.internal.dnb.example.com/repository/maven-snapshots/</url>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>always</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+    <activeProfiles>
+        <activeProfile>internal-repository-profile</activeProfile>
+    </activeProfiles>
+</settings>
+
