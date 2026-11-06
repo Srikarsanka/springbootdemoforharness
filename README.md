@@ -1,4 +1,4 @@
-# D&B Task Manager — Backend Service
+ Task Manager — Backend Service
 
 A containerized, production-grade REST API backend for enterprise task and project management, built with **Java 21 (LTS)**, **Spring Boot 3.2**, **Spring Security with JWT**, and **MongoDB**.
 
