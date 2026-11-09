@@ -1,4 +1,9 @@
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration
   data:
     mongodb:
       auto-index-creation: false
@@ -8,7 +13,7 @@ app:
     secret: dnbTaskManagementSecureJwtSecretKeyMustBeAtLeast256BitsLongForHmacSha256SecurityRequirement
     expiration-ms: 3600000
   cors:
-    allowed-origins: "*"
+    allowed-origins: "http://localhost:4200,http://localhost:80"
 
 management:
   endpoint:

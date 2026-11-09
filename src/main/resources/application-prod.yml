@@ -19,6 +19,7 @@ logging:
 
 app:
   jwt:
+    secret: ${JWT_SECRET}
     expiration-ms: 14400000 # 4 hours
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS}

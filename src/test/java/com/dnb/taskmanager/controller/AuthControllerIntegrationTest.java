@@ -6,13 +6,18 @@ import com.dnb.taskmanager.dto.response.AuthResponse;
 import com.dnb.taskmanager.dto.response.UserResponse;
 import com.dnb.taskmanager.model.enums.UserRole;
 import com.dnb.taskmanager.service.AuthService;
+import com.dnb.taskmanager.exception.GlobalExceptionHandler;
+import com.dnb.taskmanager.security.CustomUserDetailsService;
+import com.dnb.taskmanager.security.JwtAuthenticationEntryPoint;
+import com.dnb.taskmanager.security.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,9 +30,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(controllers = AuthController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
+@Import(GlobalExceptionHandler.class)
 class AuthControllerIntegrationTest {
 
     @Autowired
@@ -40,7 +46,13 @@ class AuthControllerIntegrationTest {
     private AuthService authService;
 
     @MockBean
-    private org.springframework.data.mongodb.core.MongoTemplate mongoTemplate;
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private CustomUserDetailsService customUserDetailsService;
+
+    @MockBean
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Test
     @DisplayName("POST /api/auth/register - Success")

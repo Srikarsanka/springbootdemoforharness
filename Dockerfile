@@ -1,3 +1,4 @@
+
 # ==============================================================================
 # Build Stage
 # ==============================================================================
@@ -12,7 +13,16 @@ RUN mvn dependency:go-offline -B || true
 
 # Copy source code and package
 COPY src ./src
-RUN mvn clean package -DskipTests -B
+
+# ==============================================================================
+# Build Verification: Run unit & integration tests during image build
+# The image build will fail immediately if any business logic or test breaks
+# ==============================================================================
+RUN mvn test -B
+
+# Package production executable JAR
+RUN mvn package -DskipTests -B && \
+    test -s target/task-manager-1.0.0-SNAPSHOT.jar
 
 # ==============================================================================
 # Runtime Stage
