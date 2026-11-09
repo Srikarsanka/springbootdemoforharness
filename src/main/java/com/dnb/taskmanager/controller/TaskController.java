@@ -44,6 +44,16 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @GetMapping
+    @Operation(summary = "Get all tasks with optional search and filtering")
+    public ResponseEntity<List<TaskResponse>> getAllTasks(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) TaskStatus status,
+            @RequestParam(required = false) com.dnb.taskmanager.model.enums.TaskPriority priority,
+            @RequestParam(required = false) String projectId) {
+        return ResponseEntity.ok(taskService.getAllTasks(search, status, priority, projectId));
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get task details by ID")
     public ResponseEntity<TaskResponse> getTaskById(@PathVariable String id) {

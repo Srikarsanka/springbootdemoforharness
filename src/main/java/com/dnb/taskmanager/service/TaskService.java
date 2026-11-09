@@ -83,6 +83,30 @@ public class TaskService {
         return toTaskResponse(saved);
     }
 
+    public List<TaskResponse> getAllTasks(String search, TaskStatus status, TaskPriority priority, String projectId) {
+        List<Task> tasks;
+        if (projectId != null && !projectId.isBlank() && status != null) {
+            tasks = taskRepository.findByProjectIdAndStatus(projectId, status);
+        } else if (projectId != null && !projectId.isBlank()) {
+            tasks = taskRepository.findByProjectId(projectId);
+        } else if (status != null) {
+            tasks = taskRepository.findByStatus(status);
+        } else if (priority != null) {
+            tasks = taskRepository.findByPriority(priority);
+        } else if (search != null && !search.isBlank()) {
+            tasks = taskRepository.findByTitleContainingIgnoreCase(search.trim());
+        } else {
+            tasks = taskRepository.findAll();
+        }
+
+        return tasks.stream()
+                .filter(t -> search == null || search.isBlank() || (t.getTitle() != null && t.getTitle().toLowerCase().contains(search.toLowerCase().trim())))
+                .filter(t -> status == null || t.getStatus() == status)
+                .filter(t -> priority == null || t.getPriority() == priority)
+                .map(this::toTaskResponse)
+                .toList();
+    }
+
     public Task getTaskEntityById(String id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
